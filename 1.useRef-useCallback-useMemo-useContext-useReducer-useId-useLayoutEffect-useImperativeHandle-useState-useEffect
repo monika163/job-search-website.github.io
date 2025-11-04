@@ -1,0 +1,86 @@
+Interviewer: Why useRef is used when we have useState?
+
+You could explain as below...
+
+"Well, useState and useRef do have similar roles in managing state, but they serve different purposes. useState is great for managing state that affects the UI and triggers re-renders when it changes.
+
+On the other hand, useRef is more about persisting values between renders without causing re-renders. It's particularly useful for storing mutable values, accessing DOM elements imperatively, or preserving values across renders without affecting the UI. So, while useState is used for state that influences what the user sees, useRef is handy for managing state or values that are more behind the scenes and don't necessarily affect the UI directly."
+---------------
+Interviewer: "Can you explain how the useCallback hook works in React?"
+
+You: "Absolutely! So, useCallback is a hook in React that helps us optimize performance by memoizing callback functions.
+
+Now, let me give you a real-world example to illustrate this. 𝐈𝐦𝐚𝐠𝐢𝐧𝐞 𝐰𝐞'𝐫𝐞 𝐛𝐮𝐢𝐥𝐝𝐢𝐧𝐠 𝐚 𝐬𝐨𝐜𝐢𝐚𝐥 𝐦𝐞𝐝𝐢𝐚 𝐚𝐩𝐩 𝐰𝐡𝐞𝐫𝐞 𝐮𝐬𝐞𝐫𝐬 𝐜𝐚𝐧 𝐜𝐨𝐦𝐦𝐞𝐧𝐭 𝐨𝐧 𝐩𝐨𝐬𝐭𝐬. 𝐄𝐚𝐜𝐡 𝐩𝐨𝐬𝐭 𝐡𝐚𝐬 𝐚 𝐛𝐮𝐭𝐭𝐨𝐧 𝐭𝐨 '𝐥𝐢𝐤𝐞' 𝐢𝐭, 𝐚𝐧𝐝 𝐰𝐡𝐞𝐧 𝐲𝐨𝐮 𝐜𝐥𝐢𝐜𝐤 𝐭𝐡𝐞 𝐥𝐢𝐤𝐞 𝐛𝐮𝐭𝐭𝐨𝐧, 𝐢𝐭 𝐬𝐡𝐨𝐮𝐥𝐝 𝐮𝐩𝐝𝐚𝐭𝐞 𝐭𝐡𝐞 𝐧𝐮𝐦𝐛𝐞𝐫 𝐨𝐟 𝐥𝐢𝐤𝐞𝐬 𝐟𝐨𝐫 𝐭𝐡𝐚𝐭 𝐩𝐨𝐬𝐭. 𝐍𝐨𝐰, 𝐞𝐯𝐞𝐫𝐲 𝐭𝐢𝐦𝐞 𝐰𝐞 𝐫𝐞𝐧𝐝𝐞𝐫 𝐚 𝐩𝐨𝐬𝐭, 𝐰𝐞 𝐩𝐚𝐬𝐬 𝐝𝐨𝐰𝐧 𝐚 𝐜𝐚𝐥𝐥𝐛𝐚𝐜𝐤 𝐟𝐮𝐧𝐜𝐭𝐢𝐨𝐧 𝐭𝐨 𝐡𝐚𝐧𝐝𝐥𝐞 𝐭𝐡𝐞 𝐥𝐢𝐤𝐞 𝐚𝐜𝐭𝐢𝐨𝐧. Without useCallback, React would create a new instance of this callback function every time the post component renders, which could lead to unnecessary re-renders of child components.
+
+But by using useCallback, we memoize the callback function, ensuring that it's only recreated when its dependencies change. So, in our example, we could use useCallback to memoize the function that handles the like action for a post. This way, React knows that as long as the dependencies (like the post ID or the current user) remain the same, it doesn't need to recreate the function, which ultimately improves performance and reduces unnecessary re-renders."
+----------------
+Interviewer: Explain the useMemo hook and one of the real time usage.
+
+You can explain in this way...
+
+"Sure! 𝐈𝐦𝐚𝐠𝐢𝐧𝐞 𝐲𝐨𝐮'𝐫𝐞 𝐩𝐫𝐞𝐩𝐚𝐫𝐢𝐧𝐠 𝐚 𝐠𝐫𝐨𝐜𝐞𝐫𝐲 𝐥𝐢𝐬𝐭 𝐟𝐨𝐫 𝐭𝐡𝐞 𝐰𝐞𝐞𝐤 𝐚𝐡𝐞𝐚𝐝. 𝐘𝐨𝐮 𝐡𝐚𝐯𝐞 𝐚 𝐟𝐮𝐧𝐜𝐭𝐢𝐨𝐧 𝐭𝐡𝐚𝐭 𝐜𝐚𝐥𝐜𝐮𝐥𝐚𝐭𝐞𝐬 𝐭𝐡𝐞 𝐭𝐨𝐭𝐚𝐥 𝐜𝐨𝐬𝐭 𝐨𝐟 𝐲𝐨𝐮𝐫 𝐠𝐫𝐨𝐜𝐞𝐫𝐢𝐞𝐬 𝐛𝐚𝐬𝐞𝐝 𝐨𝐧 𝐭𝐡𝐞 𝐩𝐫𝐢𝐜𝐞𝐬 𝐨𝐟 𝐢𝐧𝐝𝐢𝐯𝐢𝐝𝐮𝐚𝐥 𝐢𝐭𝐞𝐦𝐬. 𝐍𝐨𝐰, 𝐞𝐯𝐞𝐫𝐲 𝐭𝐢𝐦𝐞 𝐲𝐨𝐮 𝐚𝐝𝐝 𝐨𝐫 𝐫𝐞𝐦𝐨𝐯𝐞 𝐚𝐧 𝐢𝐭𝐞𝐦 𝐟𝐫𝐨𝐦 𝐲𝐨𝐮𝐫 𝐥𝐢𝐬𝐭, 𝐭𝐡𝐞 𝐭𝐨𝐭𝐚𝐥 𝐜𝐨𝐬𝐭 𝐧𝐞𝐞𝐝𝐬 𝐭𝐨 𝐛𝐞 𝐫𝐞𝐜𝐚𝐥𝐜𝐮𝐥𝐚𝐭𝐞𝐝. This is where `useMemo` hook in React comes in handy. It's like having a smart calculator that remembers the previous total cost and only recalculates it when necessary, saving you time and effort. In React, `useMemo` memoizes the result of a function and returns the memoized value whenever the inputs to that function remain the same. So, in our grocery example, `useMemo` would ensure that the total cost is only recalculated if the list of items or their prices change, preventing unnecessary recalculations and improving performance."
+----------------
+Interviewer: Why to use useContext hook when we already have a consumer way to get the data at the nested component.
+
+React is all about sharing data between two components mainly between a Parent and a Child Component using props. But when we have to use some data that has been initialized in the parent component in the last child component, we only have one way of passing that data to it and it is through prop drilling.
+
+But this all changed when React Context API was introduced with React version 16.3. In this, we make that data (value or object) globally available by storing it somewhere else using the createContext function and then passing it from the parent component using the provider property of the creaetContext() function and will be used by the consumer property of the createContext() function both these properties are used in the form of a component.
+
+But there are times when we can’t use the Consumer Component as it will create a callback hell as described in the document. We can easily avoid it by using a hook called useContext hook which was again introduced with React version 16.8 and can only be used in functional components. 
+In this, we just have to create the context and pass the value using the Provider function but the one receiving those values will not be the Consumer Component but the useContext hook. In this hook we don’t have to do anything; rather all the work will be done by this hook, we just have to initialize the same number of variables as the data we have passed and give them the original passed value, using the useEffect hook which then will be used in our app dynamically.
+----------------
+Interviewer: What's useReducer hook and how is it different from the Redux.
+
+Here is my answer...
+
+"The useReducer hook is a tool for managing state in functional components, especially when dealing with complex state logic or multiple state transitions. 
+
+It takes in a reducer function and an initial state, returning the current state and a dispatch function to trigger state updates. 
+
+For example, imagine you're building a shopping cart feature for an e-commerce website. You could use useReducer to handle adding items to the cart, removing items, and updating quantities. Each action, like adding an item or changing its quantity, is defined within the reducer function, making it easy to manage and understand the state transitions."
+
+"Unlike useState, which is great for managing simple state values, useReducer shines when you need to manage more complex state behaviors. It promotes a clear separation between state and state transitions, making your code more predictable and easier to debug. 
+
+For instance, consider a game where you need to keep track of the player's health, score, and current level. With useReducer, you can define actions like 'increaseScore', 'decreaseHealth', and 'advanceLevel' within the reducer function, making it straightforward to update the game state based on various player interactions. Overall, useReducer provides a structured approach to state management in React."
+----------------
+Interviewer: What's the useId hook in Reactjs. How is it different from key ?
+
+My answer would be...
+Ø useId() is one of the latest hooks added to React 18. 
+Ø The useId() hook provides a way to generate unique IDs that persist between re-renders. 
+Ø It ensures that generated IDs i.e, returns a string are unique across the entire React app, and until the component that uses the ID is removed from the DOM. Once the component is re-insterted, the generated ID will be different.
+Ø The main purpose of the useId() hook is to generate unique IDs for HTML form elements. It simplifies the process of generating unique IDs when creating form inputs and labels in React.
+Ø The useId() hook doesn’t take any parameters.
+Ø Don’t use useId hook to generate keys. It’s main purpose is to generate unique ids for Form element’s id attribute.
+----------------
+Interviewer: Why should we use useLayoutEffect() hook rather than useEffect() hook.
+
+`useLayoutEffect()` is similar to `useEffect()`, but it fires synchronously after all DOM mutations. It's typically used when you need to perform DOM measurements or need to do something that affects layout before the browser paints.
+
+For example, if you're building a responsive web application and you need to calculate the dimensions of a dynamically rendered component before it's displayed to the user, `useLayoutEffect()` would be a better choice. This ensures that your layout calculations are done before the browser updates the screen, preventing any flickering or jankiness in the user interface.
+
+However, it's important to note that `useLayoutEffect()` comes with a performance cost, as it blocks the browser from painting until it's finished. Therefore, it should be used sparingly and only when necessary. In contrast, `useEffect()` fires asynchronously after rendering, which makes it suitable for most side effects that don't require synchronous updates to the DOM. For instance, if you're fetching data from an API and updating the state of your component based on the response, `useEffect()` would suffice.
+
+By understanding the timing and purpose of these hooks, you can choose the appropriate one to optimize the performance and user experience of your application.
+----------------
+Enhancing Parent-Child Component Interaction with useImperativeHandle hook in React !!
+
+With the `useImperativeHandle` hook in React, you can enable a child component to expose specific methods or properties to its parent component, allowing the parent to call those methods directly. 
+
+For example, suppose we have a child component called `ChildComponent` that manages a video player. Using `useImperativeHandle`, we can define a method `play()` inside `ChildComponent`, and then expose this method to the parent component using a `ref`. 
+
+This way, the parent component can call `play()` on the `ChildComponent` instance to start playing the video without needing to know the internal implementation details of the child component. This enables a clean and controlled way for parent components to interact with child components, improving code maintainability and separation of concerns.
+----------------
+Interviewer: Are there any performance considerations when using the useState hook, especially with complex state structures? 
+
+
+
+While the `useState` hook is incredibly handy for managing component state in React, it's essential to be mindful of performance considerations, especially when dealing with complex state structures. For instance, if your state object contains numerous nested properties or large arrays, frequent updates to this state can potentially lead to unnecessary re-renders and impact performance. In such cases, it's often beneficial to consider splitting the state into smaller, more manageable pieces, or utilizing memoization techniques like `useMemo` or `useCallback` to optimize rendering. Let's say you're building a data-intensive application with a form that maintains various user inputs and preferences. Instead of storing all form data within a single state object, you might consider breaking it down into smaller, more focused state variables, ensuring that updates to one part of the form don't trigger unnecessary re-renders for unrelated sections. This approach can help improve performance and keep your application responsive, especially as it scales with more complex data structures and interactions.
+---------------
+Interviewer: Are there any scenarios where you shouldn't use the useEffect() hook?
+
+Here is my answer...
+
+While the `useEffect()` hook is incredibly powerful and versatile, there are certain scenarios where it might not be the best fit. For instance, if you're dealing with performance-sensitive operations or need to tightly control when side effects occur, using `useEffect()` for every side effect might lead to unnecessary re-renders and performance issues. Instead, in such cases, you might consider using alternative techniques like memoization or ref-based approaches. For example, 𝐥𝐞𝐭'𝐬 𝐬𝐚𝐲 𝐲𝐨𝐮 𝐡𝐚𝐯𝐞 𝐚 𝐡𝐢𝐠𝐡-𝐟𝐫𝐞𝐪𝐮𝐞𝐧𝐜𝐲 𝐞𝐯𝐞𝐧𝐭 𝐥𝐢𝐬𝐭𝐞𝐧𝐞𝐫, 𝐬𝐮𝐜𝐡 𝐚𝐬 𝐨𝐧𝐞 𝐟𝐨𝐫 𝐦𝐨𝐮𝐬𝐞 𝐦𝐨𝐯𝐞𝐦𝐞𝐧𝐭 𝐨𝐫 𝐬𝐜𝐫𝐨𝐥𝐥 𝐞𝐯𝐞𝐧𝐭𝐬, 𝐭𝐡𝐚𝐭 𝐭𝐫𝐢𝐠𝐠𝐞𝐫𝐬 𝐟𝐫𝐞𝐪𝐮𝐞𝐧𝐭 𝐮𝐩𝐝𝐚𝐭𝐞𝐬. 𝐈𝐧 𝐬𝐮𝐜𝐡 𝐜𝐚𝐬𝐞𝐬, 𝐮𝐬𝐢𝐧𝐠 `𝐮𝐬𝐞𝐄𝐟𝐟𝐞𝐜𝐭()` 𝐟𝐨𝐫 𝐞𝐯𝐞𝐫𝐲 𝐮𝐩𝐝𝐚𝐭𝐞 𝐦𝐢𝐠𝐡𝐭 𝐫𝐞𝐬𝐮𝐥𝐭 𝐢𝐧 𝐩𝐞𝐫𝐟𝐨𝐫𝐦𝐚𝐧𝐜𝐞 𝐛𝐨𝐭𝐭𝐥𝐞𝐧𝐞𝐜𝐤𝐬. 𝐈𝐧𝐬𝐭𝐞𝐚𝐝, 𝐮𝐬𝐢𝐧𝐠 𝐚 𝐫𝐞𝐟 𝐭𝐨 𝐝𝐢𝐫𝐞𝐜𝐭𝐥𝐲 𝐢𝐧𝐭𝐞𝐫𝐚𝐜𝐭 𝐰𝐢𝐭𝐡 𝐭𝐡𝐞 𝐃𝐎𝐌 𝐞𝐥𝐞𝐦𝐞𝐧𝐭 𝐚𝐧𝐝 𝐦𝐚𝐧𝐚𝐠𝐞 𝐭𝐡𝐞 𝐞𝐯𝐞𝐧𝐭 𝐥𝐢𝐬𝐭𝐞𝐧𝐞𝐫 𝐦𝐢𝐠𝐡𝐭 𝐨𝐟𝐟𝐞𝐫 𝐛𝐞𝐭𝐭𝐞𝐫 𝐩𝐞𝐫𝐟𝐨𝐫𝐦𝐚𝐧𝐜𝐞 𝐰𝐢𝐭𝐡𝐨𝐮𝐭 𝐭𝐫𝐢𝐠𝐠𝐞𝐫𝐢𝐧𝐠 𝐮𝐧𝐧𝐞𝐜𝐞𝐬𝐬𝐚𝐫𝐲 𝐫𝐞-𝐫𝐞𝐧𝐝𝐞𝐫𝐬.
+
+
